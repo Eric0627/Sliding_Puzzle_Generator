@@ -6,6 +6,8 @@
 
 This is an instruction manual for compiling and running the game generator. 
 
+You can also visit my public website (https://puzzlengine.cs.cityu.edu.hk/) that deploys the whole project.
+
 There are two main folders: Game_framework and Algorithms. The former one is the integrated web app, while the latter one includes the back-end algorithms for generating three kinds of sliding puzzles: Klotski, 15-puzzle, and Sokoban. 
 
 #### 2. Game Framework
