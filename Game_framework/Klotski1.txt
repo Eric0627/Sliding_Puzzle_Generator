@@ -1,0 +1,88 @@
+<template>
+  <div class = "gameboard">
+    <div class="step"><br>{{steps}}</div>
+    <input id="lastLevel" type="button" v-on:click="changeLevel($event)">
+    <div id="level"><br>{{level+1}}</div>
+    <input id="nextLevel" type="button" v-on:click="changeLevel($event)">
+    <input class="back" type="button" v-on:click="moveBack">
+    <input class="solution" type="button" v-on:click="autoPlay">
+    <input class="restart" type="button" v-on:click="replay">
+    <input class="download" type="button" v-on:click="downloadSol">
+    <!-- <input class="setting" type="button" v-on:click="userCreate($event)"> -->
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <input class="setting" type="button" 
+            v-bind="attrs"
+            v-on="on"
+          >
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Cusotmize Klotski puzzles</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                >
+                  <v-text-field
+                    label="Maximum level (integer)"
+                    v-model="maxLev"
+                  ></v-text-field>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-select
+                    :items="['1', '2', '3', '4','5']"
+                    v-model="type"
+                    label="* Type of Klotski (the number of 1x2 blocks)"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>* indicates required field</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialog = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="newPuzzles($event)"
+            >
+              Submit
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+		<div class="sprite bg-kuang">
+			<div id="game-klotski" style="position:relative;left:20px;top:20px;"></div>
+		</div>
+  </div>
+</template>
+
+<script>
+//import { exec } from 'child_process'
+import { generatePuzzles, downloadFiles } from '../plugins/UserService'
+  export default {
+    name: 'Klotski',
+    data () {
+      return {
